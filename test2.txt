@@ -1,0 +1,159 @@
+
+echo mettre tout les fichiers MVTTAB et tables99 dans le même dossier
+echo nommer les mvttab de la manière suivante : num_MVTTAB_version_SOCLE_TBsocleG ex : 1_MVTTAB_335020_SOCLE_TB320050G
+echo nommer les socle de la manière suivante : TBsocleG ex : TB320050G
+echo nommer le socle cible de la manière suivante : T99
+
+i="1"
+
+fchemin ()
+{
+pwd
+read -p 'indiquer le chemin : ' C 
+read -p 'indiquer le nombre de MVTTAB en entrée : ' D
+cd $C
+rm -rf rapport.log
+}
+
+fT01 ()
+{
+	test="`echo ${line} | cut -c1-13`"
+	socle="`ls "$i"* | cut -d_ -f 5`"
+	f="`grep "$test" "$socle"`"
+	if [ -n "$f" ]  
+	then
+		g="`grep "$f" T99`"
+		if [ "$f" = "$g" ]  
+		else
+			$erreur="`ls "$i"*`"
+			echo "$erreur" / "$line" / socle modifié !!/n >> rapport.log
+		fi
+	else
+		$erreur="`ls "$i"*`"
+		echo "$erreur" / "$line" / soucis vieux socle !!/n >> rapport.log
+	fi
+}
+
+fT02 ()
+{
+	test="`echo ${line} | cut -c1-13`"
+	socle="`ls "$i"* | cut -d_ -f 5`"
+	f="`grep "$test" "$socle"`"
+	if [ -z "$f" ]  
+	then
+		g="`grep "$f" T99`"
+		if [ "$f" = "$g" ]  
+		else
+			$erreur="`ls "$i"*`"
+			echo "$erreur" / "$line" / socle modifié !!/n >> rapport.log
+		fi
+	else
+		$erreur="`ls "$i"*`"
+		echo "$erreur" / "$line" / soucis vieux socle !!/n >> rapport.log
+	fi
+}
+
+fT03 ()
+{
+echo "T03 : pas encore"/n >>rapport.log
+}
+
+fT04 ()
+{
+	test="`echo ${line} | cut -c1-13`"
+	socle="`ls "$i"* | cut -d_ -f 5`"
+	f="`grep "$test" "$socle"`"
+	if [ -n "$f" ]  
+	then
+		g="`grep "$f" T99`"
+		if [ "$f" = "$g" ]  
+		else
+			$erreur="`ls "$i"*`"
+			echo "$erreur" / "$line" / socle modifié !!/n >> rapport.log
+		fi
+	else
+		$erreur="`ls "$i"*`"
+		echo "$erreur" / "$line" / soucis vieux socle !!/n >> rapport.log
+	fi
+}
+
+fT05 ()
+{
+	test="`echo ${line} | cut -c1-13`"
+	socle="`ls "$i"* | cut -d_ -f 5`"
+	f="`grep "$test" "$socle"`"
+	if [ -z "$f" ]  
+	then
+		g="`grep "$f" T99`"
+		if [ "$f" = "$g" ]  
+		else
+			$erreur="`ls "$i"*`"
+			echo "$erreur" / "$line" / socle modifié !!/n >> rapport.log
+		fi
+	else
+		$erreur="`ls "$i"*`"
+		echo "$erreur" / "$line" / soucis vieux socle !!/n >> rapport.log
+	fi
+}
+
+fT06 ()
+{
+	test="`echo ${line} | cut -c1-13`"
+	socle="`ls "$i"* | cut -d_ -f 5`"
+	f="`grep "$test" "$socle"`"
+	if [ -n "$f" ]  
+	then
+		g="`grep "$f" T99`"
+		if [ "$f" = "$g" ]  
+		else
+			$erreur="`ls "$i"*`"
+			echo "$erreur" / "$line" / socle modifié !!/n >> rapport.log
+		fi
+	else
+		$erreur="`ls "$i"*`"
+		echo "$erreur" / "$line" / soucis vieux socle !!/n >> rapport.log
+	fi
+}
+
+flecture ()
+{
+if [ "$i" -lt "$D" ]
+then
+	while read line
+	do 
+		fin=`echo ${line} | cut -c78-80`
+		case $fin in 
+		T01)
+			fT01
+		T02)
+			fT02
+		T03)
+			fT03
+		T04)
+			fT04
+		T05)
+			fT05
+		T06)
+			fT06
+		;;
+			*)
+		echo pas de T0X en fin de ligne\n >> rapport.log
+		;;
+		esac
+	done < "$i"*
+	let "i = i + 1"
+else
+	test -f rapport.log
+	if [ "echo $?" = "0" ]
+	then
+		echo lire le fichier raport.log !!
+	else
+		echo fin sans erreur !!
+	fi
+fi
+
+}
+
+
+fchemin
+flecture
