@@ -3,7 +3,7 @@ echo mettre tout les fichiers MVTTAB et tables99 dans le même dossier
 echo nommer les mvttab de la manière suivante : num_MVTTAB_version_SOCLE_TBsocleG ex : 1_MVTTAB_335020_SOCLE_TB320050G
 echo nommer les socle de la manière suivante : TBsocleG ex : TB320050G
 echo nommer le socle cible de la manière suivante : T99
-
+#il faudrait changer le nom des variables pour mettre en camelCase
 i="1"
 
 fchemin ()
